@@ -10,4 +10,26 @@
 		<property name="address" value="北京市大兴区亦庄经济开发区"></property>
 	</bean>
 
+	<bean id="factoryUser" class="org.springframework.study.factory.UserFactoryBean"></bean>
+
+	<!--根据类型自动装配-->
+<!--	<bean id="userController" class="org.springframework.study.auto.controller.UserController"-->
+<!--		  autowire="byType"></bean>-->
+
+<!--	<bean id="userService" class="org.springframework.study.auto.service.UserServiceImpl"-->
+<!--		  autowire="byType"></bean>-->
+
+<!--	<bean id="userDao" class="org.springframework.study.auto.dao.UserDaoImpl"-->
+<!--		  autowire="byType"></bean>-->
+
+	<!--根据名称自动装配-->
+	<bean id="userController" class="org.springframework.study.auto.controller.UserController"
+		  autowire="byName"></bean>
+
+	<bean id="userService" class="org.springframework.study.auto.service.UserServiceImpl"
+		  autowire="byName"></bean>
+
+	<bean id="userDao" class="org.springframework.study.auto.dao.UserDaoImpl"
+		  autowire="byName"></bean>
+
 </beans>
