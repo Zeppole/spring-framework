@@ -286,6 +286,8 @@ public class SpringFactoriesLoader {
 	}
 
 	/**
+	 * 创建一个SpringFactoriesLoader实例用来加载和实现 spring.factories 中的实例
+	 *
 	 * Create a {@link SpringFactoriesLoader} instance that will load and
 	 * instantiate the factory implementations from
 	 * {@value #FACTORIES_RESOURCE_LOCATION}, using the given class loader.
@@ -313,6 +315,8 @@ public class SpringFactoriesLoader {
 	}
 
 	/**
+	 * 创建一个SpringFactoriesLoader实例
+	 *
 	 * Create a {@link SpringFactoriesLoader} instance that will load and
 	 * instantiate the factory implementations from the given location,
 	 * using the given class loader.
@@ -336,11 +340,17 @@ public class SpringFactoriesLoader {
 	protected static Map<String, List<String>> loadFactoriesResource(ClassLoader classLoader, String resourceLocation) {
 		Map<String, List<String>> result = new LinkedHashMap<>();
 		try {
+			// 通过给定的类加载器，加载资源
 			Enumeration<URL> urls = classLoader.getResources(resourceLocation);
+			// 遍历所有的资源路径
 			while (urls.hasMoreElements()) {
+				// 获取资源路径绝对路径
 				UrlResource resource = new UrlResource(urls.nextElement());
+				// 加载配置，即spring.factories中配置的数据
 				Properties properties = PropertiesLoaderUtils.loadProperties(resource);
+				// 遍历配置的数据
 				properties.forEach((name, value) -> {
+					// 根据,切分字符串，并将处理后的字符串数据存储到MAP集合中
 					String[] factoryImplementationNames = StringUtils.commaDelimitedListToStringArray((String) value);
 					List<String> implementations = result.computeIfAbsent(((String) name).trim(),
 							key -> new ArrayList<>(factoryImplementationNames.length));
