@@ -21,6 +21,10 @@ import org.springframework.core.ResolvableType;
 import org.springframework.lang.Nullable;
 
 /**
+ * BeanFactory是Spring框架中的一个接口，它是一个工厂类，用来创建和管理Spring中的Bean对象。BeanFactory接口定义了Spring容器的基本规范和行为，它提供了一种机制来将配置文件中定义的Bean实例化、配置和管理起来。
+ * BeanFactory的主要作用是提供Bean的创建、配置、初始化和销毁等基本操作，它可以根据配置文件或注解来创建并管理Bean实例，并提供了各种方法来获取和操作Bean实例。
+ * 在Spring框架中，BeanFactory是Spring容器的基础，它提供了Bean的创建、配置、初始化和销毁等基本操作，是Spring框架中非常重要的一个接口。
+ *
  * The root interface for accessing a Spring bean container.
  *
  * <p>This is the basic client view of a bean container;

@@ -86,6 +86,9 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 /**
+ * DefaultListableBeanFactory是Spring Framework中的一个核心类，用于实现Bean的管理和依赖注入功能。
+ * DefaultListableBeanFactory是BeanFactory的一个具体实现类，它继承自AbstractAutowireCapableBeanFactory并实现了ListableBeanFactory和BeanDefinitionRegistry接口。它的主要作用是通过读取和解析Bean定义信息来创建和管理Bean实例。
+ *
  * Spring's default implementation of the {@link ConfigurableListableBeanFactory}
  * and {@link BeanDefinitionRegistry} interfaces: a full-fledged bean factory
  * based on bean definition metadata, extensible through post-processors.

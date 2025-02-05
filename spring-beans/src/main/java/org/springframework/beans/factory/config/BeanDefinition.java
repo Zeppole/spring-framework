@@ -23,6 +23,14 @@ import org.springframework.core.ResolvableType;
 import org.springframework.lang.Nullable;
 
 /**
+ * 该接口提供了检索、修改Bean的元数据的能力并定义了一些基础数据
+ * 一个BeanDefinition大概保存了以下信息
+ * 1、定义了id、别名与Bean的对应关系
+ * 2、具体的工厂方法（class类型），包裹工厂方法的返回类型，工厂方法的Method对象
+ * 3、构造函数、构造函数的形参类型
+ * 4、Bean的class对象
+ * 5、作用范围、是否懒加载等
+ *
  * A BeanDefinition describes a bean instance, which has property values,
  * constructor argument values, and further information supplied by
  * concrete implementations.
