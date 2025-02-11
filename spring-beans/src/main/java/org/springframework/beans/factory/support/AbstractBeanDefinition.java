@@ -306,6 +306,8 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 
 
 	/**
+	 * 覆盖当前bean定义中的设置
+	 *
 	 * Override settings in this bean definition (presumably a copied parent
 	 * from a parent-child inheritance relationship) from the given bean
 	 * definition (presumably the child).
@@ -322,21 +324,27 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	 * </ul>
 	 */
 	public void overrideFrom(BeanDefinition other) {
+		// 如other有BeanClassName则直接覆盖当前BeanClassName
 		if (StringUtils.hasLength(other.getBeanClassName())) {
 			setBeanClassName(other.getBeanClassName());
 		}
+		// 如有作用域直接覆盖作用域
 		if (StringUtils.hasLength(other.getScope())) {
 			setScope(other.getScope());
 		}
+		// 覆盖是否抽象
 		setAbstract(other.isAbstract());
+		// 覆盖工厂名
 		if (StringUtils.hasLength(other.getFactoryBeanName())) {
 			setFactoryBeanName(other.getFactoryBeanName());
 		}
+		// 覆盖工厂方法名
 		if (StringUtils.hasLength(other.getFactoryMethodName())) {
 			setFactoryMethodName(other.getFactoryMethodName());
 		}
 		setRole(other.getRole());
 		setSource(other.getSource());
+		// 拷贝属性
 		copyAttributesFrom(other);
 
 		if (other instanceof AbstractBeanDefinition otherAbd) {
