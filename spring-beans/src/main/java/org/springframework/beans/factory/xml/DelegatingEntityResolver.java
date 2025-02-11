@@ -77,16 +77,40 @@ public class DelegatingEntityResolver implements EntityResolver {
 	}
 
 
+	/**
+	 * 在这个方法实现中，resolveEntity方法接受两个参数：publicId和systemId，
+	 * 分别表示正在解析的实体的公共标识符和系统标识符。该方法首先检查systemId参数是否为非空。
+	 * 如果它不是空，并以.dtd后缀结尾，它将代理实体解析到名为dtdResolver的DTDResolver实例，
+	 * 将publicId和systemId参数传递给它。
+	 * 类似地，如果systemId以.xsd后缀结尾，它将代理实体解析到名为schemaResolver的SchemaResolver实例，
+	 * 将publicId和systemId参数传递给它。
+	 * 如果systemId不以.dtd或.xsd结尾，则方法返回null，这将导致解析器返回默认实体解析行为。
+	 * 方法签名中的@Nullable注释表示其中一个或两个参数可以为空。如果实体解析过程中发生错误，
+	 * 该方法可能会抛出SAXException或IOException。
+	 *
+	 * @param publicId The public identifier of the external entity
+	 *                 being referenced, or null if none was supplied.
+	 * @param systemId The system identifier of the external entity
+	 *                 being referenced.
+	 * @return 返回一个InputSource对象，表示解析的实体的输入源。
+	 * @throws SAXException 如果解析实体时发生错误
+	 * @throws IOException  如果发生I/O错误
+	 */
 	@Override
 	@Nullable
 	public InputSource resolveEntity(@Nullable String publicId, @Nullable String systemId)
 			throws SAXException, IOException {
 
+		// 系统标识符不为空
 		if (systemId != null) {
+			// 如果以.dtd结尾
 			if (systemId.endsWith(DTD_SUFFIX)) {
+				// 代理实体解析到名为dtdResolver的DTDResolver实例
 				return this.dtdResolver.resolveEntity(publicId, systemId);
 			}
+			// 如果以.xsd结尾
 			else if (systemId.endsWith(XSD_SUFFIX)) {
+				// 代理实体解析到名为schemaResolver的SchemaResolver实例
 				return this.schemaResolver.resolveEntity(publicId, systemId);
 			}
 		}

@@ -85,6 +85,9 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 
 
 	/**
+	 * 该实现根据“spring-beans”XSD(或者历史上的DTD)解析bean定义。
+	 * 打开一个DOM文档;然后初始化<beans/>级别指定的默认设置;然后解析包含的bean定义。
+	 *
 	 * This implementation parses bean definitions according to the "spring-beans" XSD
 	 * (or DTD, historically).
 	 * <p>Opens a DOM Document; then initializes the default settings
@@ -93,6 +96,7 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 	@Override
 	public void registerBeanDefinitions(Document doc, XmlReaderContext readerContext) {
 		this.readerContext = readerContext;
+		// 调用方法
 		doRegisterBeanDefinitions(doc.getDocumentElement());
 	}
 
@@ -115,6 +119,8 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 
 
 	/**
+	 * 注册bean定义，从给定的根{@code <beans/>}元素开始。
+	 *
 	 * Register each bean definition within the given root {@code <beans/>} element.
 	 */
 	@SuppressWarnings("deprecation")  // for Environment.acceptsProfiles(String...)
@@ -125,17 +131,24 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 		// the new (child) delegate with a reference to the parent for fallback purposes,
 		// then ultimately reset this.delegate back to its original (parent) reference.
 		// this behavior emulates a stack of delegates without actually necessitating one.
+		// 获取父类的BeanDefinitionParserDelegate
 		BeanDefinitionParserDelegate parent = this.delegate;
+		// 创建BeanDefinitionParserDelegate
 		BeanDefinitionParserDelegate current = createDelegate(getReaderContext(), root, parent);
 		this.delegate = current;
 
+		// 如果根元素的命名空间是默认的命名空间，且根元素的profile属性不为空
 		if (current.isDefaultNamespace(root)) {
+			// 获取profile属性值
 			String profileSpec = root.getAttribute(PROFILE_ATTRIBUTE);
+			// 如果profile属性值不为空
 			if (StringUtils.hasText(profileSpec)) {
+				// 将profile属性值按照逗号分隔符分割成数组
 				String[] specifiedProfiles = StringUtils.tokenizeToStringArray(
 						profileSpec, BeanDefinitionParserDelegate.MULTI_VALUE_ATTRIBUTE_DELIMITERS);
 				// We cannot use Profiles.of(...) since profile expressions are not supported
 				// in XML config. See SPR-12458 for details.
+				// 如果当前环境不包含指定的profile属性值
 				if (!getReaderContext().getEnvironment().acceptsProfiles(specifiedProfiles)) {
 					if (logger.isDebugEnabled()) {
 						logger.debug("Skipped XML bean definition file due to specified profiles [" + profileSpec +
@@ -146,10 +159,14 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 			}
 		}
 
+		// 解析前置处理
 		preProcessXml(root);
+		// 解析BeanDefinition
 		parseBeanDefinitions(root, current);
+		// 解析后置处理
 		postProcessXml(root);
 
+		// 将父类的BeanDefinitionParserDelegate赋值给当前的BeanDefinitionParserDelegate
 		this.delegate = parent;
 	}
 
@@ -162,11 +179,15 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 	}
 
 	/**
+	 * 解析文档中根级别的元素
+	 *
 	 * Parse the elements at the root level in the document:
 	 * "import", "alias", "bean".
 	 * @param root the DOM root element of the document
 	 */
 	protected void parseBeanDefinitions(Element root, BeanDefinitionParserDelegate delegate) {
+		// 判断根节点使用的标签所对应的命名空间是否为spring提供的默认命名空间
+		// 这里根节点为beans节点，该节点的明明空间通过其xmlns属性指定
 		if (delegate.isDefaultNamespace(root)) {
 			NodeList nl = root.getChildNodes();
 			for (int i = 0; i < nl.getLength(); i++) {

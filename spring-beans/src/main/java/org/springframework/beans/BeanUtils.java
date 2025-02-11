@@ -114,6 +114,8 @@ public abstract class BeanUtils {
 	}
 
 	/**
+	 * 实例化一个类，使用它的无参构造函数，并将新实例作为指定的可分配类型返回。
+	 *
 	 * Instantiate a class using its 'primary' constructor (for Kotlin classes,
 	 * potentially having default arguments declared) or its default constructor
 	 * (for regular Java classes, expecting a standard no-arg setup).
@@ -131,6 +133,7 @@ public abstract class BeanUtils {
 	 */
 	public static <T> T instantiateClass(Class<T> clazz) throws BeanInstantiationException {
 		Assert.notNull(clazz, "Class must not be null");
+		// 如果是接口，抛出异常
 		if (clazz.isInterface()) {
 			throw new BeanInstantiationException(clazz, "Specified class is an interface");
 		}
