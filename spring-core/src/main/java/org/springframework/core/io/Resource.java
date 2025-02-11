@@ -30,6 +30,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.FileCopyUtils;
 
 /**
+ * 在Spring Framework中，资源是一个接口，它抽象了对底层资源的访问，如文件系统、类路径、Web应用程序
+ *
  * Interface for a resource descriptor that abstracts from the actual
  * type of underlying resource, such as a file or class path resource.
  *
@@ -56,6 +58,8 @@ import org.springframework.util.FileCopyUtils;
 public interface Resource extends InputStreamSource {
 
 	/**
+	 * 返回Resource所指向的底层资源是否存在
+	 *
 	 * Determine whether this resource actually exists in physical form.
 	 * <p>This method performs a definitive existence check, whereas the
 	 * existence of a {@code Resource} handle only guarantees a valid
@@ -64,6 +68,8 @@ public interface Resource extends InputStreamSource {
 	boolean exists();
 
 	/**
+	 * 返回当前Resource代表的底层资源是否可读
+	 *
 	 * Indicate whether non-empty contents of this resource can be read via
 	 * {@link #getInputStream()}.
 	 * <p>Will be {@code true} for typical resource descriptors that exist
@@ -79,6 +85,8 @@ public interface Resource extends InputStreamSource {
 	}
 
 	/**
+	 * 返回Resource资源文件是否已经打开，如果返回true，则只能被读取一次然后关闭以避免内存泄漏；常见的Resource实现一般返回false
+	 *
 	 * Indicate whether this resource represents a handle with an open stream.
 	 * If {@code true}, the InputStream cannot be read multiple times,
 	 * and must be read and closed to avoid resource leaks.
@@ -101,6 +109,8 @@ public interface Resource extends InputStreamSource {
 	}
 
 	/**
+	 * 如果当前Resource代表的底层资源能由java.util.URL代表，则返回该URL，否则抛出IO异常
+	 *
 	 * Return a URL handle for this resource.
 	 * @throws IOException if the resource cannot be resolved as URL,
 	 * i.e. if the resource is not available as a descriptor
@@ -108,6 +118,8 @@ public interface Resource extends InputStreamSource {
 	URL getURL() throws IOException;
 
 	/**
+	 * 如果当前Resource代表的底层资源能由java.util.URI代表，则返回该URI，否则抛出IO异常
+	 *
 	 * Return a URI handle for this resource.
 	 * @throws IOException if the resource cannot be resolved as URI,
 	 * i.e. if the resource is not available as a descriptor
@@ -116,6 +128,8 @@ public interface Resource extends InputStreamSource {
 	URI getURI() throws IOException;
 
 	/**
+	 * 如果当前Resource代表的底层资源能由java.io.File代表，则返回该File，否则抛出IO异常
+	 *
 	 * Return a File handle for this resource.
 	 * @throws java.io.FileNotFoundException if the resource cannot be resolved as
 	 * absolute file path, i.e. if the resource is not available in a file system
@@ -165,6 +179,8 @@ public interface Resource extends InputStreamSource {
 	}
 
 	/**
+	 * 返回当前Resource代表的底层文件资源的长度，一般是值代表的文件资源的长度
+	 *
 	 * Determine the content length for this resource.
 	 * @throws IOException if the resource cannot be resolved
 	 * (in the file system or as some other known physical resource type)
@@ -172,6 +188,8 @@ public interface Resource extends InputStreamSource {
 	long contentLength() throws IOException;
 
 	/**
+	 * 返回当前Resource代表的底层资源的最后修改时间
+	 *
 	 * Determine the last-modified timestamp for this resource.
 	 * @throws IOException if the resource cannot be resolved
 	 * (in the file system or as some other known physical resource type)

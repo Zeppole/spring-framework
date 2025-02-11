@@ -48,6 +48,8 @@ import org.springframework.util.ResourceUtils;
 public abstract class AbstractResource implements Resource {
 
 	/**
+	 * 返回Resource所指向的底层资源是否存在，子类实现可以重写此方法，以提供更具体的实现
+	 *
 	 * This implementation checks whether a File can be opened,
 	 * falling back to whether an InputStream can be opened.
 	 * <p>This will cover both directories and content resources.
