@@ -55,8 +55,14 @@ import org.springframework.util.Assert;
  */
 public class AnnotationConfigApplicationContext extends GenericApplicationContext implements AnnotationConfigRegistry {
 
+	/**
+	 * 读取注解的Bean定义读取器
+	 */
 	private final AnnotatedBeanDefinitionReader reader;
 
+	/**
+	 * 扫描指定类路径中注解Bean定义的扫描器
+	 */
 	private final ClassPathBeanDefinitionScanner scanner;
 
 
@@ -77,31 +83,43 @@ public class AnnotationConfigApplicationContext extends GenericApplicationContex
 	 */
 	public AnnotationConfigApplicationContext(DefaultListableBeanFactory beanFactory) {
 		super(beanFactory);
+		// 创建一个读取注解的Bean定义读取器，并将其设置到容器中
 		this.reader = new AnnotatedBeanDefinitionReader(this);
+		// 创建一个扫描指定类路径中注解Bean定义的扫描器，并将其设置到容器中
 		this.scanner = new ClassPathBeanDefinitionScanner(this);
 	}
 
 	/**
+	 * 创建一个新的AnnotationConfigApplicationContext，从给定的组件类中获得bean定义，并自动刷新上下文。
+	 *
 	 * Create a new AnnotationConfigApplicationContext, deriving bean definitions
 	 * from the given component classes and automatically refreshing the context.
 	 * @param componentClasses one or more component classes &mdash; for example,
 	 * {@link Configuration @Configuration} classes
 	 */
 	public AnnotationConfigApplicationContext(Class<?>... componentClasses) {
+		// 调用无参构造器
 		this();
+		// 注册组件
 		register(componentClasses);
+		// 自动刷新上下文
 		refresh();
 	}
 
 	/**
+	 * 创建一个新的AnnotationConfigApplicationContext，扫描给定包中的组件，注册这些组件的bean定义，并自动刷新上下文。
+	 *
 	 * Create a new AnnotationConfigApplicationContext, scanning for components
 	 * in the given packages, registering bean definitions for those components,
 	 * and automatically refreshing the context.
 	 * @param basePackages the packages to scan for component classes
 	 */
 	public AnnotationConfigApplicationContext(String... basePackages) {
+		// 调用无参构造器
 		this();
+		// 扫描路径
 		scan(basePackages);
+		// 自动刷新上下文
 		refresh();
 	}
 

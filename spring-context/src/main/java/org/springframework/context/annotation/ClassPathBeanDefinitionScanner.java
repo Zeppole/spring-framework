@@ -245,6 +245,8 @@ public class ClassPathBeanDefinitionScanner extends ClassPathScanningCandidateCo
 
 
 	/**
+	 * 在指定的基本包内执行扫描。
+	 *
 	 * Perform a scan within the specified base packages.
 	 * @param basePackages the packages to check for annotated classes
 	 * @return number of beans registered
@@ -263,6 +265,8 @@ public class ClassPathBeanDefinitionScanner extends ClassPathScanningCandidateCo
 	}
 
 	/**
+	 * 在指定的基本包内执行扫描，返回已注册的bean定义，此方法不注册注释配置处理器，而是将其留给调用者。
+	 *
 	 * Perform a scan within the specified base packages,
 	 * returning the registered bean definitions.
 	 * <p>This method does <i>not</i> register an annotation config processor
@@ -273,9 +277,13 @@ public class ClassPathBeanDefinitionScanner extends ClassPathScanningCandidateCo
 	protected Set<BeanDefinitionHolder> doScan(String... basePackages) {
 		Assert.notEmpty(basePackages, "At least one base package must be specified");
 		Set<BeanDefinitionHolder> beanDefinitions = new LinkedHashSet<>();
+		// 依次遍历扫描路径
 		for (String basePackage : basePackages) {
+			// 获取指定包下的所有候选bean定义，即需要加载到Spring容器中的类
 			Set<BeanDefinition> candidates = findCandidateComponents(basePackage);
+			// 依次遍历候选bean定义
 			for (BeanDefinition candidate : candidates) {
+				// 设置scope数据
 				ScopeMetadata scopeMetadata = this.scopeMetadataResolver.resolveScopeMetadata(candidate);
 				candidate.setScope(scopeMetadata.getScopeName());
 				String beanName = this.beanNameGenerator.generateBeanName(candidate, this.registry);

@@ -233,7 +233,7 @@ public class AnnotatedBeanDefinitionReader {
 	}
 
 	/**
-	 * BeanDefinition加载方式二，将标记有@Component、@Controller、@Service、@Respository的bean解析成BeanDefinition
+	 * BeanDefinition加载方式二，将标记有@Component、@Controller、@Service、@Repository的bean解析成BeanDefinition
 	 * （注意@Configuration配置类里面的@Bean类无法解析），并将这些BeanDefinition注册到BeanDefinitionRegistry容器中。
 	 *
 	 * Register a bean from the given bean class, deriving its metadata from
